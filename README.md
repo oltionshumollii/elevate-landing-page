@@ -1,6 +1,5 @@
 # Elevate - Modern Corporate Landing Page
 
-![Elevate Landing Page](https://via.placeholder.com/1200x630/2563eb/ffffff?text=Elevate+Landing+Page)
 
 A fully responsive, modern corporate landing page built with pure HTML, CSS, and JavaScript. Features a professional design with dark/light mode, mobile-first approach, and smooth user interactions.
 
@@ -198,7 +197,7 @@ Inspiration from modern corporate design trends
 📧 Contact
 Oltion Shumolli - @oltionshumollii - oltionshumolli.pc@gmail.com
 GitHub: https://github.com/oltionshumollii
-Project Link: 
+Project Link: https://oltionshumollii.github.io/elevate-landing-page/
 
 ⭐ Show Your Support
 If you found this project helpful, please give it a ⭐ on GitHub!
