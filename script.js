@@ -1,185 +1,278 @@
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
-  // DOM Elements
-  const header = document.getElementById('header');
-  const themeToggle = document.getElementById('themeToggle');
-  const hamburger = document.getElementById('hamburger');
-  const nav = document.getElementById('nav');
-  const progressBar = document.getElementById('progressBar');
-  const contactForm = document.getElementById('contactForm');
-  const toastContainer = document.getElementById('toastContainer');
-  const logoImg = document.getElementById('logoImg');
-  const footerLogo = document.getElementById('footerLogo');
+// script.js - Dark/Light Mode, Mobile Menu, Smooth Scroll, Form Validation
 
-  // ======================= DARK / LIGHT MODE =======================
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    updateLogoByTheme(theme);
-    const icon = themeToggle.querySelector('i');
-    if (theme === 'dark') {
-      icon.classList.remove('fa-moon');
-      icon.classList.add('fa-sun');
-    } else {
-      icon.classList.remove('fa-sun');
-      icon.classList.add('fa-moon');
-    }
+// ========== DOM Elements ==========
+const themeToggle = document.getElementById('themeToggle');
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+const contactForm = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+
+// ========== Theme Management ==========
+// Check for saved theme preference
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  updateThemeIcon(true);
+} else if (savedTheme === 'light') {
+  document.documentElement.setAttribute('data-theme', 'light');
+  updateThemeIcon(false);
+} else {
+  // Check system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (prefersDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    updateThemeIcon(true);
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    updateThemeIcon(false);
   }
+}
 
-  function updateLogoByTheme(theme) {
-    // Dynamic SVG logos (light mode uses dark text, dark mode uses light text)
-    if (theme === 'dark') {
-      const darkLogoSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='0' y='28' font-family='monospace' font-size='24' fill='%23ffffff'%3ENEXUS%3C/text%3E%3C/svg%3E`;
-      if (logoImg) logoImg.src = darkLogoSvg;
-      if (footerLogo) footerLogo.src = darkLogoSvg;
-    } else {
-      const lightLogoSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='0' y='28' font-family='monospace' font-size='24' fill='%23007bff'%3ENEXUS%3C/text%3E%3C/svg%3E`;
-      if (logoImg) logoImg.src = lightLogoSvg;
-      if (footerLogo) footerLogo.src = lightLogoSvg;
-    }
+function updateThemeIcon(isDark) {
+  const icon = themeToggle.querySelector('i');
+  if (isDark) {
+    icon.className = 'fas fa-sun';
+  } else {
+    icon.className = 'fas fa-moon';
   }
+}
 
-  const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  setTheme(savedTheme);
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+    updateThemeIcon(false);
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    updateThemeIcon(true);
+  }
+}
 
-  themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const newTheme = current === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    showToast(`Switched to ${newTheme} mode`, 'success');
-  });
+themeToggle.addEventListener('click', toggleTheme);
 
-  // ======================= MOBILE MENU =======================
-  hamburger.addEventListener('click', () => {
-    nav.classList.toggle('active');
-    hamburger.classList.toggle('active');
-  });
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('active');
-    });
-  });
+// ========== Mobile Hamburger Menu ==========
+function toggleMobileMenu() {
+  navMenu.classList.toggle('active');
+  const icon = hamburgerBtn.querySelector('i');
+  if (navMenu.classList.contains('active')) {
+    icon.className = 'fas fa-times';
+    document.body.style.overflow = 'hidden';
+  } else {
+    icon.className = 'fas fa-bars';
+    document.body.style.overflow = '';
+  }
+}
 
-  // ======================= SCROLL PROGRESS BAR =======================
-  window.addEventListener('scroll', () => {
-    const winScroll = document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled = (winScroll / height) * 100;
-    progressBar.style.width = scrolled + '%';
-  });
+function closeMobileMenu() {
+  if (navMenu.classList.contains('active')) {
+    navMenu.classList.remove('active');
+    hamburgerBtn.querySelector('i').className = 'fas fa-bars';
+    document.body.style.overflow = '';
+  }
+}
 
-  // ======================= COUNTER ANIMATION (Intersection Observer) =======================
-  const counters = document.querySelectorAll('.counter');
-  const counterObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const counter = entry.target;
-        const updateCounter = () => {
-          const target = parseInt(counter.getAttribute('data-target'));
-          let current = parseInt(counter.innerText);
-          const step = Math.ceil(target / 50);
-          if (current < target) {
-            current = Math.min(current + step, target);
-            counter.innerText = current;
-            setTimeout(updateCounter, 20);
-          } else {
-            counter.innerText = target;
-          }
-        };
-        updateCounter();
-        observer.unobserve(counter);
+hamburgerBtn.addEventListener('click', toggleMobileMenu);
+
+// Close menu when clicking a nav link
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    closeMobileMenu();
+    // Smooth scroll is handled by CSS, but we prevent default hash jump
+    const targetId = link.getAttribute('href');
+    if (targetId && targetId !== '#') {
+      e.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       }
-    });
-  }, { threshold: 0.5 });
-  counters.forEach(counter => counterObserver.observe(counter));
-
-  // ======================= SCROLL REVEAL ANIMATIONS =======================
-  const revealElements = document.querySelectorAll('.about-card, .service-card, .feature-item, .stat-item, .accordion-item, .contact-form, .contact-info');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
-  revealElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(25px)';
-    el.style.transition = 'opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s ease';
-    revealObserver.observe(el);
+    }
   });
+});
 
-  // ======================= FAQ ACCORDION =======================
-  const accordionItems = document.querySelectorAll('.accordion-item');
-  accordionItems.forEach(item => {
-    const header = item.querySelector('.accordion-header');
-    header.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      accordionItems.forEach(i => i.classList.remove('active'));
-      if (!isActive) item.classList.add('active');
-    });
+// ========== Smooth Scrolling for all anchor links ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      // Update URL without jumping
+      history.pushState(null, null, href);
+    }
   });
+});
 
-  // ======================= TOAST NOTIFICATION =======================
-  function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${message}`;
-    toastContainer.appendChild(toast);
+// ========== Form Validation ==========
+function validateForm(name, email, message) {
+  let isValid = true;
+  
+  // Clear previous errors
+  document.querySelectorAll('.error-message').forEach(el => {
+    el.style.display = 'none';
+    el.textContent = '';
+  });
+  
+  // Name validation
+  if (!name.trim()) {
+    showError('nameError', 'Full name is required');
+    isValid = false;
+  } else if (name.trim().length < 2) {
+    showError('nameError', 'Name must be at least 2 characters');
+    isValid = false;
+  }
+  
+  // Email validation
+  const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+  if (!email.trim()) {
+    showError('emailError', 'Email address is required');
+    isValid = false;
+  } else if (!emailRegex.test(email.trim())) {
+    showError('emailError', 'Please enter a valid email address (e.g., name@example.com)');
+    isValid = false;
+  }
+  
+  // Message validation
+  if (!message.trim()) {
+    showError('messageError', 'Message cannot be empty');
+    isValid = false;
+  } else if (message.trim().length < 10) {
+    showError('messageError', 'Message must be at least 10 characters');
+    isValid = false;
+  }
+  
+  return isValid;
+}
+
+function showError(elementId, message) {
+  const errorElement = document.getElementById(elementId);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  }
+}
+
+function showSuccessMessage() {
+  if (formSuccess) {
+    formSuccess.textContent = '✓ Message sent successfully! We\'ll get back to you soon.';
+    formSuccess.style.display = 'block';
     setTimeout(() => {
-      toast.remove();
-    }, 3000);
+      formSuccess.style.display = 'none';
+    }, 5000);
   }
+}
 
-  // ======================= FORM VALIDATION & SUBMIT =======================
+function resetFormFields() {
+  if (contactForm) {
+    contactForm.reset();
+  }
+}
+
+// Handle form submission
+if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    if (!name || !email || !message) {
-      showToast('All fields are required.', 'error');
-      return;
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    if (validateForm(name, email, message)) {
+      // Simulate form submission (demo purposes)
+      showSuccessMessage();
+      resetFormFields();
     }
-    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showToast('Please enter a valid email address.', 'error');
-      return;
+  });
+}
+
+// ========== Active Navigation Highlight on Scroll ==========
+function updateActiveNavLink() {
+  const sections = document.querySelectorAll('section[id]');
+  const scrollPosition = window.scrollY + 100; // Offset for header
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionBottom = sectionTop + section.offsetHeight;
+    const sectionId = section.getAttribute('id');
+    
+    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${sectionId}`) {
+          link.classList.add('active');
+        }
+      });
     }
-    // Simulate successful send
-    showToast(`Thank you ${name}! Your message has been received.`, 'success');
-    contactForm.reset();
   });
+}
 
-  // ======================= SMOOTH SCROLLING (all anchor links) =======================
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href === "#" || href === "") return;
-      const targetElement = document.querySelector(href);
-      if (targetElement) {
-        e.preventDefault();
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-  // ======================= OPTIONAL: GLASS BACKGROUND CANVAS (subtle particle) =======================
-  // Adding a simple subtle moving gradient on hero for polish
-  const heroVisual = document.querySelector('.hero-visual');
-  if (heroVisual) {
-    let angle = 0;
-    setInterval(() => {
-      angle = (angle + 1) % 360;
-      const sphere = document.querySelector('.glass-sphere');
-      if (sphere) {
-        sphere.style.background = `radial-gradient(circle at 30% 30%, rgba(59,130,246,0.4), rgba(139,92,246,0.2))`;
-      }
-    }, 3000);
+// Add active class styling
+const style = document.createElement('style');
+style.textContent = `
+  .nav-link.active {
+    color: var(--accent);
   }
+  .nav-link.active::after {
+    width: 100%;
+  }
+`;
+document.head.appendChild(style);
 
-  // initial active accordion state (first open for visual)
-  if (accordionItems.length) accordionItems[0].classList.add('active');
+window.addEventListener('scroll', updateActiveNavLink);
+window.addEventListener('load', updateActiveNavLink);
+
+// ========== Close mobile menu on window resize ==========
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 968 && navMenu.classList.contains('active')) {
+    closeMobileMenu();
+  }
 });
+
+// ========== Additional UX: Add some entrance animations for cards ==========
+// Intersection Observer for fade-in on scroll (enhancement)
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Apply to feature cards for smooth scroll reveal if not already visible
+document.querySelectorAll('.feature-card, .about-content, .contact-info').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+
+// Immediately set visible for any that are already in view
+setTimeout(() => {
+  document.querySelectorAll('.feature-card, .about-content, .contact-info').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }
+  });
+}, 100);
+
+// ========== Console log for demo purposes ==========
+console.log('Elevate website loaded — Dark mode, mobile menu, and form validation active.');
