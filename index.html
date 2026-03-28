@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Nexus | Future-Ready Enterprise</title>
+  <!-- Google Fonts: Inter & Space Grotesk for premium feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Sticky Header -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <div class="logo">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='0' y='28' font-family='monospace' font-size='24' fill='%23007bff'%3ENEXUS%3C/text%3E%3C/svg%3E" alt="Nexus Logo" id="logoImg" class="logo-img">
+      </div>
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" id="themeToggle" aria-label="Dark/Light mode">
+          <i class="fas fa-moon"></i>
+        </button>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">✦ Next-Gen Enterprise</div>
+          <h1 class="hero-title">Scale Beyond Boundaries</h1>
+          <p class="hero-desc">Precision-crafted digital solutions that redefine industry standards. AI-driven insights, unmatched performance, and visionary design for global leaders.</p>
+          <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary">Launch Platform <i class="fas fa-arrow-right"></i></a>
+            <a href="#services" class="btn btn-outline">Explore Ecosystem</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="glass-sphere"></div>
+          <div class="particle-orb"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Who we are</span>
+          <h2>Architects of digital <span class="gradient-text">excellence</span></h2>
+          <p>We fuse cutting-edge technology with human-centric design to deliver transformative outcomes.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-card glass-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Data-Driven</h3>
+            <p>Analytics & ML pipelines that turn complex data into strategic advantage.</p>
+          </div>
+          <div class="about-card glass-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Quantum Security</h3>
+            <p>Zero-trust architecture with military-grade encryption and compliance.</p>
+          </div>
+          <div class="about-card glass-card">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Cloud Native</h3>
+            <p>Scalable, serverless ecosystems ready for hypergrowth and global scale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section (cards) -->
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Core offerings</span>
+          <h2>Precision services for <span class="gradient-text">visionaries</span></h2>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-brain"></i></div>
+            <h3>AI Strategy</h3>
+            <p>Custom LLM agents, predictive models, and automation workflows.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-cubes"></i></div>
+            <h3>Digital Twins</h3>
+            <p>Real-time simulation & IoT integration for smart infrastructure.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-globe"></i></div>
+            <h3>Edge Computing</h3>
+            <p>Low-latency architectures for distributed high-performance systems.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section with animated counters -->
+    <section class="stats">
+      <div class="container stats-container">
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter" data-target="247">0</span>+</div>
+          <p>Enterprise Clients</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter" data-target="98">0</span>%</div>
+          <p>Satisfaction Rate</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter" data-target="12">0</span>B+</div>
+          <p>Data Points Processed</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter" data-target="5">0</span>ms</div>
+          <p>Avg. Latency</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features / Highlights Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Why Nexus</span>
+          <h2>Uncompromising <span class="gradient-text">innovation</span></h2>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <i class="fas fa-bolt"></i>
+            <h3>Lightning Speed</h3>
+            <p>Sub-millisecond response times with global CDN edge network.</p>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-chart-simple"></i>
+            <h3>Predictive Analytics</h3>
+            <p>Proactive insights that drive ROI before market shifts.</p>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-handshake"></i>
+            <h3>Dedicated Support</h3>
+            <p>24/7 white-glove service with dedicated solutions architects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section id="faq" class="faq">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Knowledge base</span>
+          <h2>Frequently asked <span class="gradient-text">questions</span></h2>
+        </div>
+        <div class="accordion" id="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">What industries do you specialize in?<i class="fas fa-chevron-down"></i></button>
+            <div class="accordion-content"><p>We serve fintech, healthcare, logistics, and enterprise SaaS, delivering tailored solutions for each vertical's regulatory and scalability needs.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">How long does a typical implementation take?<i class="fas fa-chevron-down"></i></button>
+            <div class="accordion-content"><p>MVP can launch in 6–8 weeks, while full-scale enterprise deployments average 3–6 months, depending on complexity.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Do you offer post-launch support?<i class="fas fa-chevron-down"></i></button>
+            <div class="accordion-content"><p>Absolutely. All packages include 12 months of premium support with SLA guarantees and continuous optimization.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section with working form -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get in touch</span>
+          <h2>Let's shape the <span class="gradient-text">future</span></h2>
+        </div>
+        <div class="contact-wrapper">
+          <form id="contactForm" class="contact-form">
+            <div class="input-group">
+              <input type="text" id="name" placeholder="Full name" required>
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="input-group">
+              <input type="email" id="email" placeholder="Email address" required>
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="input-group">
+              <textarea id="message" rows="4" placeholder="Tell us about your project..." required></textarea>
+              <i class="fas fa-comment"></i>
+            </div>
+            <button type="submit" class="btn btn-primary full-width">Send Message <i class="fas fa-paper-plane"></i></button>
+          </form>
+          <div class="contact-info">
+            <div class="info-card glass-card">
+              <i class="fas fa-map-marker-alt"></i>
+              <p>Silicon Valley, CA / New York, NY</p>
+              <i class="fas fa-phone-alt"></i>
+              <p>+1 (800) 456-7890</p>
+              <i class="fas fa-clock"></i>
+              <p>24/7 Global Operations</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Professional Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='0' y='28' font-family='monospace' font-size='24' fill='white'%3ENEXUS%3C/text%3E%3C/svg%3E" alt="Nexus" id="footerLogo" class="footer-logo">
+        <p>Orchestrating the next generation of digital infrastructure.</p>
+      </div>
+      <div class="footer-links">
+        <div><a href="#hero">Home</a></div>
+        <div><a href="#about">About</a></div>
+        <div><a href="#services">Services</a></div>
+        <div><a href="#faq">FAQ</a></div>
+        <div><a href="#contact">Contact</a></div>
+      </div>
+      <div class="footer-note">
+        <p>This website is a demonstration project created for testing and portfolio purposes only.</p>
+        <p class="copyright">© 2025 Nexus — Future-Ready Enterprise</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
